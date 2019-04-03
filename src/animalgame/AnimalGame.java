@@ -61,7 +61,7 @@ public class AnimalGame {
    guessA = current.getData( );
    System.out.println("I give up. What are you? ");
    correctA = scanner.nextLine( );
-   System.out.println("Writer a yes/no question that will tell me the difference");
+   System.out.println("Write a yes/no question that will tell me the difference between a");
    System.out.println(correctA + " from a " + guessA + ".");
    newQ = scanner.nextLine( );
    
