@@ -4,15 +4,12 @@
  * and open the template in the editor.
  */
 package animalgame;
-
 import java.util.Scanner;
-
 /**
  *
  * @author matth
  */
 public class AnimalGame {
-
     /**
      * @param args the command line arguments
      */
