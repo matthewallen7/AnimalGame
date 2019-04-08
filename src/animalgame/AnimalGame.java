@@ -25,16 +25,23 @@ public class AnimalGame {
     public static void main(String[] args) {
         BTree<String> rootnode;
         rootnode = TreeDriver.initial();
-        do{
-            introduction();
+        for(;;){
+        int choice = introduction();
+        if (choice == 1) 
+        {
+            do{
+                
             playGame(rootnode);
+            
+            }          
+            while (input("Shall we play again?"));
+            System.out.println("Thank you for playing!");
         }
-        while (input("Shall we play again?"));
-        System.out.println("Thank you for playing!");
+        }
     }
       
     //Introduction for the game
-    public static void introduction()
+    public static int introduction()
     {
      System.out.println(" 1: Play the game " + " 2: Save game data " +  " 3: Load game data " +  " 4: Exit. ");  
      String choice = scanner.nextLine();
@@ -43,46 +50,43 @@ public class AnimalGame {
             System.out.println("Ok. I will ask a series of yes / no questions to guess what you are");
         }
         if (choice.equals("2")) {
-            System.out.println("Please enter your name: ");  
-            String name = scanner.nextLine();
-            User user = new User();
-            user.name = name;  
-           try {
-           FileOutputStream fileOut =
-           new FileOutputStream("c:/AnimalSave.ser");
-           ObjectOutputStream out = new ObjectOutputStream(fileOut);
-           out.writeObject("");
-           out.close();
-           fileOut.close();
-           System.out.printf("Serialized data is saved in C:/employee.ser" + "\r\n");
-         } catch (IOException i) {
-            i.printStackTrace();
-         }
+            User e = new User();
+            e.name = scanner.nextLine();
+        try {
+        FileOutputStream fileOut =
+        new FileOutputStream("AnimalSave.ser");
+        ObjectOutputStream out = new ObjectOutputStream(fileOut);
+        out.writeObject(e);
+        out.close();
+        fileOut.close();
+        System.out.printf("AnimalSave.ser");
+        } catch (IOException i) {
+         i.printStackTrace();
+            }
         }
         //Fix Deserialize
         if (choice.equals("3")) {
         User e = null;
         try {
-           FileInputStream fileIn = new FileInputStream("c:/AnimalSave.ser");
+           FileInputStream fileIn = new FileInputStream("AnimalSave.ser");
            ObjectInputStream in = new ObjectInputStream(fileIn);
            e = (User) in.readObject();
            in.close();
            fileIn.close();
         } catch (IOException i) {
            i.printStackTrace();
-           return;
         } catch (ClassNotFoundException c) {
-           System.out.println("Employee class not found");
+           System.out.println("User class not found");
            c.printStackTrace();
-           return;
         }
 
-        System.out.println("Deserialized Employee...");
+        System.out.println("Deserialized User...");
         System.out.println("Name: " + e.name);
         }
         if (choice.equals("4")) {
             System.exit(0);
         }
+        return Integer.valueOf(choice);
     }
     
   public static void playGame(BTree<String> currentGame)
