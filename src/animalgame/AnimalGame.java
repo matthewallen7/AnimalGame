@@ -18,12 +18,13 @@ public class AnimalGame {
     /**
      * @param args the command line arguments
      */
+    SaveGame[] AnimalSave = new SaveGame[100];
     private static Scanner scanner = new Scanner(System.in);
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        BTree<String> rootnode;
+        BTree rootnode;
         rootnode = TreeDriver.initial();
         for(;;){
         int choice = introduction();
@@ -50,38 +51,11 @@ public class AnimalGame {
             System.out.println("Ok. I will ask a series of yes / no questions to guess what you are");
         }
         if (choice.equals("2")) {
-            User e = new User();
-            e.name = scanner.nextLine();
-        try {
-        FileOutputStream fileOut =
-        new FileOutputStream("AnimalSave.ser");
-        ObjectOutputStream out = new ObjectOutputStream(fileOut);
-        out.writeObject(e);
-        out.close();
-        fileOut.close();
-        System.out.printf("AnimalSave.ser");
-        } catch (IOException i) {
-         i.printStackTrace();
-            }
+            //Save data
         }
         //Fix Deserialize
         if (choice.equals("3")) {
-        User e = null;
-        try {
-           FileInputStream fileIn = new FileInputStream("AnimalSave.ser");
-           ObjectInputStream in = new ObjectInputStream(fileIn);
-           e = (User) in.readObject();
-           in.close();
-           fileIn.close();
-        } catch (IOException i) {
-           i.printStackTrace();
-        } catch (ClassNotFoundException c) {
-           System.out.println("User class not found");
-           c.printStackTrace();
-        }
-
-        System.out.println("Deserialized User...");
-        System.out.println("Name: " + e.name);
+            //Load data
         }
         if (choice.equals("4")) {
             System.exit(0);
@@ -89,7 +63,7 @@ public class AnimalGame {
         return Integer.valueOf(choice);
     }
     
-  public static void playGame(BTree<String> currentGame)
+  public static void playGame(BTree currentGame)
   {
    while (!currentGame.isLeaf())
    {
@@ -106,7 +80,7 @@ public class AnimalGame {
      System.out.println("I'm just too good!");
   }
   
-  public static void AddAnimal(BTree<String> current)
+  public static void AddAnimal(BTree current)
   {
    String guessA;   
    String correctA; 
@@ -123,13 +97,13 @@ public class AnimalGame {
    System.out.println("As a " + correctA + ", " + newQ);
    if (input("Please answer"))
    {
-     current.setLeft(new BTree<String>(correctA, null, null));
-     current.setRight(new BTree<String>(guessA, null, null));
+     current.setLeft(new BTree(correctA, null, null));
+     current.setRight(new BTree(guessA, null, null));
    }
    else
    {
-     current.setLeft(new BTree<String>(guessA, null, null));
-     current.setRight(new BTree<String>(correctA, null, null));
+     current.setLeft(new BTree(guessA, null, null));
+     current.setRight(new BTree(correctA, null, null));
    }         
   }
  

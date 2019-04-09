@@ -11,16 +11,16 @@ package animalgame;
  */
 public class TreeDriver {
     
-  public static BTree<String> initial( )   
+  public static BTree initial( )   
   {
-   BTree<String> root;
-   BTree<String> child1;
-   BTree<String> child2;
-   BTree<String> child3;
-   BTree<String> child4;
-   BTree<String> child5;
-   BTree<String> child6;
-   BTree<String> child7;
+   BTree root;
+   BTree child1;
+   BTree child2;
+   BTree child3;
+   BTree child4;
+   BTree child5;
+   BTree child6;
+   BTree child7;
  
    final String ROOT_QUESTION = "Are you a mammal?";
    final String LEFTQ1 = "Are you well known for racing?";
@@ -40,36 +40,36 @@ public class TreeDriver {
    final String Frog = "Frog";
   
    // Create the root node with the question ?Are you a mammal??
-   root = new BTree<String>(ROOT_QUESTION, null, null);
+   root = new BTree(ROOT_QUESTION, null, null);
  
    // Create and attach the left subtree.
-   child1 = new BTree<String>(LEFTQ1, null, null);
-   child1.setLeft(new BTree<String>(Horse, null, null));
+   child1 = new BTree(LEFTQ1, null, null);
+   child1.setLeft(new BTree(Horse, null, null));
    root.setLeft(child1);
    
-   child7 = new BTree<String>(LEFTQ2, null, null);
-   child7.setLeft(new BTree<String>(Lion, null, null));
+   child7 = new BTree(LEFTQ2, null, null);
+   child7.setLeft(new BTree(Lion, null, null));
    child1.setRight(child7);
    
    // Create and attach the right subtree.
-   child2 = new BTree<String>(RIGHTQ1, null, null);
-   child2.setLeft(new BTree<String>(Goldfish, null, null));
+   child2 = new BTree(RIGHTQ1, null, null);
+   child2.setLeft(new BTree(Goldfish, null, null));
    root.setRight(child2);
    
-   child3 = new BTree<String>(RIGHTQ2, null, null);
-   child3.setLeft(new BTree<String>(Spider, null, null));
+   child3 = new BTree(RIGHTQ2, null, null);
+   child3.setLeft(new BTree(Spider, null, null));
    child2.setRight(child3);
    
-   child4 = new BTree<String>(RIGHTQ3, null, null);
-   child4.setLeft(new BTree<String>(Owl, null, null));
+   child4 = new BTree(RIGHTQ3, null, null);
+   child4.setLeft(new BTree(Owl, null, null));
    child3.setRight(child4);
    
-   child5 = new BTree<String>(RIGHTQ4, null, null);
-   child5.setLeft(new BTree<String>(Duck, null, null));
+   child5 = new BTree(RIGHTQ4, null, null);
+   child5.setLeft(new BTree(Duck, null, null));
    child4.setRight(child5);  
    
-   child6 = new BTree<String>(RIGHTQ5, null, null);
-   child6.setLeft(new BTree<String>(Penquin, null, null));
+   child6 = new BTree(RIGHTQ5, null, null);
+   child6.setLeft(new BTree(Penquin, null, null));
    child5.setRight(child6);
  
    return root;
