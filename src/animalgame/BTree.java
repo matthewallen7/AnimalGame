@@ -9,7 +9,7 @@ package animalgame;
  *
  * @author matth
  */
-public class BTree {
+public class BTree implements java.io.Serializable{
     public String data;
     public BTree left;
     public BTree right;
@@ -18,7 +18,7 @@ public class BTree {
     this.data = data;
     this.left = left;
     this.right = right;
-    }
+    }   
 
     public BTree(String data) {
         this.data = data;
@@ -55,6 +55,7 @@ public class BTree {
     {
      return (left == null) && (right == null);                                               
     } 
+    
  
     
     void printPreorder(BTree node) {

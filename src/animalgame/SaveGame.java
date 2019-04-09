@@ -10,6 +10,18 @@ package animalgame;
  *
  * @author matth
  */
-public class SaveGame {
+public class SaveGame implements java.io.Serializable{
+    public String newQ;
+    public String correctA;
+    public String guessA;
+    public String input;
 
+    SaveGame(String newQ, String correctA, String guessA, String input) {
+    this.newQ = newQ;
+    this.correctA = correctA;
+    this.guessA = guessA;
+    this.input = input;
+    }
+    
+    public SaveGame(){}    
 }
