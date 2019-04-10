@@ -20,21 +20,23 @@ public class AnimalGame {
      * @param args the command line arguments
      */
     public static int saveSlot = 0;
+    public static String locateAnimal = "";
+    public static boolean found = false;
     public static SaveGame[] AnimalSave = new SaveGame[100];
     private static Scanner scanner = new Scanner(System.in);
+    public static BTree initialrootnode;
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        BTree rootnode;
-        rootnode = TreeDriver.initial();
+        initialrootnode = TreeDriver.initial();
         for(;;){
         int choice = introduction();
         if (choice == 1) 
         {
             do{
                 
-            playGame(rootnode);
+            playGame(initialrootnode);
             
             }          
             while (input("Shall we play again?"));
@@ -64,8 +66,7 @@ public class AnimalGame {
         }
         //Fix Deserialize
         if (choice.equals("3")) {
-            //Load data
-        LoadTheGame();
+        LoadTheGame(initialrootnode);
         }
         if (choice.equals("4")) {
             System.exit(0);
@@ -80,6 +81,7 @@ public class AnimalGame {
       e.correctA = AnimalSave[i].correctA;
       e.guessA = AnimalSave[i].guessA;
       e.input = AnimalSave[i].input;
+      e.location = AnimalSave[i].location;
     try {
         FileOutputStream fileOut =
         new FileOutputStream("SaveData.ser");
@@ -94,7 +96,7 @@ public class AnimalGame {
       System.out.printf("Serialized data is saved in SaveData.ser " + "\r\n");
   }
   
-  public static void LoadTheGame(){
+  public static void LoadTheGame(BTree rootnode){
       SaveGame e = null;
       try {
          FileInputStream fileIn = new FileInputStream("SaveData.ser");
@@ -111,21 +113,31 @@ public class AnimalGame {
          return;
       }
       
-      System.out.println("Deserialized Employee...");
+      System.out.println("Deserialized Animal...");
       System.out.println("New Question: " + e.newQ);
       System.out.println("Correct Animal: " + e.correctA);
       System.out.println("Guess Animal: " + e.guessA);
       System.out.println("Input: " + e.input);
+      System.out.println("Location: " + e.location);
+      do{
+        FindAnimal(rootnode, e.guessA, e.location, e.newQ, e.correctA, e.input);
+        }          
+        while (input("Shall we play again?"));
+        System.out.println("Loaded Data");
   }
     
   public static void playGame(BTree currentNode)
   {
    while (!currentNode.isLeaf())
    {
-     if (input(currentNode.getData()))
-      currentNode = currentNode.getLeft();
-     else
-      currentNode = currentNode.getRight();
+     if (input(currentNode.getData())){
+        currentNode = currentNode.getLeft();
+        locateAnimal += "Y";
+     }
+     else{
+           currentNode = currentNode.getRight();
+           locateAnimal += "N";
+     }
    }
  
    System.out.print("You are a " + currentNode.getData() + ". ");
@@ -133,6 +145,59 @@ public class AnimalGame {
      AddAnimal(currentNode);
    else
      System.out.println("I'm just too good!");
+  }
+  
+  public static void FindAnimal(BTree currentNode, String guessA, String location, String newQ, String correctA, String input){
+      try {
+      String currentLocation = location;
+      while (!currentNode.isLeaf() && found == false)
+      {
+          String s = "";
+          char currentChar = currentLocation.charAt(0);
+          String strChar = String.valueOf(currentChar);
+          if (strChar.equals("Y")){
+              currentNode = currentNode.getLeft();
+              s = currentNode.getData();
+              currentLocation = currentLocation.substring(1);
+          }
+          else{
+              currentNode = currentNode.getRight();
+              s = currentNode.getData();
+              currentLocation = currentLocation.substring(1);
+          }
+          if (s.equals(guessA))
+          {
+              LoadAnimal(currentNode, guessA, correctA, newQ, input);
+          }
+      }
+      }
+      catch (Exception e) {
+         System.out.println("Already Loaded Save." + "\r\n");
+      }
+  }
+  
+  public static void LoadAnimal(BTree current, String guessAnimal, String newAnimal, String newQuestion, String input){
+   String guessA = guessAnimal;   
+   String correctA = newAnimal; 
+   String newQ = newQuestion;   
+   
+   System.out.println(current);
+   guessA = current.getData();
+   System.out.println("Loading Data....");
+   
+   current.setData(newQ);
+   if (input.equals("Y"))
+   {
+     current.setLeft(new BTree(correctA, null, null));
+     current.setRight(new BTree(guessA, null, null));
+     found = true;
+   }
+   else
+   {
+     current.setLeft(new BTree(guessA, null, null));
+     current.setRight(new BTree(correctA, null, null));
+     found = true;
+   }
   }
   
   public static void AddAnimal(BTree current)
@@ -155,13 +220,13 @@ public class AnimalGame {
    {
      current.setLeft(new BTree(correctA, null, null));
      current.setRight(new BTree(guessA, null, null));
-     AnimalSave[saveSlot] = new SaveGame(newQ, correctA, guessA, "Y");
+     AnimalSave[saveSlot] = new SaveGame(newQ, correctA, guessA, "Y", locateAnimal);
    }
    else
    {
      current.setLeft(new BTree(guessA, null, null));
      current.setRight(new BTree(correctA, null, null));
-     AnimalSave[saveSlot] = new SaveGame(newQ, guessA, correctA, "N");
+     AnimalSave[saveSlot] = new SaveGame(newQ, guessA, correctA, "N", locateAnimal);
    }       
    saveSlot++;
   }

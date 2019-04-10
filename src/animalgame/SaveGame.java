@@ -15,12 +15,14 @@ public class SaveGame implements java.io.Serializable{
     public String correctA;
     public String guessA;
     public String input;
+    public String location;
 
-    SaveGame(String newQ, String correctA, String guessA, String input) {
+    SaveGame(String newQ, String correctA, String guessA, String input, String location) {
     this.newQ = newQ;
     this.correctA = correctA;
     this.guessA = guessA;
     this.input = input;
+    this.location = location;
     }
     
     public SaveGame(){}    
