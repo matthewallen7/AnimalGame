@@ -32,6 +32,7 @@ public class AnimalGame {
      */
     //The found variable will let the user know when the animal is found.
     public static boolean found = false;
+    public static boolean endGame = false;
 
     /**
      *
@@ -63,8 +64,9 @@ public class AnimalGame {
             playGame(initialrootnode);
             
             }          
-            while (input("Shall we play again?"));
+            while (endGame == false);
             System.out.println("Thank you for playing!");
+            endGame = false;
         }
         }
     }
@@ -75,7 +77,7 @@ public class AnimalGame {
      *
      * @return
      */
-        public static int introduction()
+    public static int introduction()
     {
      System.out.println(" 1: Play the game " + " 2: Save game data " +  " 3: Load game data " +  " 4: Exit. ");  
      String choice = scanner.nextLine();
@@ -96,6 +98,7 @@ public class AnimalGame {
         //Deserialize data
         if (choice.equals("3")) {
         LoadTheGame(initialrootnode);
+        System.out.printf("Deserialized data from saved SaveData.ser " + "\r\n");
         }
         if (choice.equals("4")) {
             System.exit(0);
@@ -162,7 +165,7 @@ public class AnimalGame {
       do{
         FindAnimal(rootnode, e.guessA, e.location, e.newQ, e.correctA, e.input);
         }          
-        while (input("Shall we play again?"));
+        while (endGame == true);
         System.out.println("Loaded Data");
   }
     
@@ -195,6 +198,8 @@ public class AnimalGame {
      AddAnimal(currentNode);
    else
      System.out.println("I'm just too good!");
+     locateAnimal = "";
+     endGame = true;
   }
   
     /**
@@ -235,7 +240,7 @@ public class AnimalGame {
       }
       }
       catch (Exception e) {
-         System.out.println("Already Loaded Save." + "\r\n");
+         System.out.println("Already Loaded Save data!" + "\r\n");
       }
   }
   
@@ -307,7 +312,8 @@ public class AnimalGame {
      current.setLeft(new BTree(guessA, null, null));
      current.setRight(new BTree(correctA, null, null));
      AnimalSave[saveSlot] = new SaveGame(newQ, guessA, correctA, "N", locateAnimal);
-   }       
+   }
+   locateAnimal = "";
    saveSlot++;
   }
  
@@ -326,9 +332,17 @@ public class AnimalGame {
    answer = scanner.nextLine().toUpperCase();
    while (!answer.startsWith("Y") && !answer.startsWith("N"))
    {
-  System.out.print("Please type Y / N ");
-  answer = scanner.nextLine().toUpperCase();
+    System.out.print("Please type Y / N ");
+    answer = scanner.nextLine().toUpperCase();
    }
    return answer.startsWith("Y");
+  }
+  
+  public static boolean continueMain(String message){
+   while (message.equals("Continue"))
+   {
+    System.out.print("Finishing up......");
+   }
+   return false;
   }
 }
