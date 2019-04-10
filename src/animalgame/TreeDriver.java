@@ -11,8 +11,13 @@ package animalgame;
  */
 public class TreeDriver {
     
-  public static BTree initial( )   
+    /**
+     *
+     * @return
+     */
+    public static BTree initial( )   
   {
+   //make nodes for binary tree.
    BTree root;
    BTree child1;
    BTree child2;
@@ -22,6 +27,7 @@ public class TreeDriver {
    BTree child6;
    BTree child7;
  
+   //Questions for the user.
    final String ROOT_QUESTION = "Are you a mammal?";
    final String LEFTQ1 = "Are you well known for racing?";
    final String LEFTQ2 = "Do you have big teeth?";
@@ -39,7 +45,7 @@ public class TreeDriver {
    final String Penquin = "Penquin";
    final String Frog = "Frog";
   
-   // Create the root node with the question ?Are you a mammal??
+   // Create the root node with the question.
    root = new BTree(ROOT_QUESTION, null, null);
  
    // Create and attach the left subtree.

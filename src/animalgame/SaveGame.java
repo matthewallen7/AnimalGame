@@ -11,12 +11,34 @@ package animalgame;
  * @author matth
  */
 public class SaveGame implements java.io.Serializable{
+
+    //class variables
+    /**
+     *
+     */
     public String newQ;
+
+    /**
+     *
+     */
     public String correctA;
+
+    /**
+     *
+     */
     public String guessA;
+
+    /**
+     *
+     */
     public String input;
+
+    /**
+     *
+     */
     public String location;
 
+    //contructor for the array.
     SaveGame(String newQ, String correctA, String guessA, String input, String location) {
     this.newQ = newQ;
     this.correctA = correctA;
@@ -25,5 +47,8 @@ public class SaveGame implements java.io.Serializable{
     this.location = location;
     }
     
+    /**
+     *
+     */
     public SaveGame(){}    
 }

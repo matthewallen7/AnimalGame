@@ -17,20 +17,44 @@ import java.util.Scanner;
  */
 public class AnimalGame {
     /**
-     * @param args the command line arguments
      */
+    //which slot to save in the array
     public static int saveSlot = 0;
+
+    /**
+     *
+     */
+    //locate the animal in the save
     public static String locateAnimal = "";
+
+    /**
+     *
+     */
+    //The found variable will let the user know when the animal is found.
     public static boolean found = false;
+
+    /**
+     *
+     */
+    //array for the save
     public static SaveGame[] AnimalSave = new SaveGame[100];
+    //scanner for user input
     private static Scanner scanner = new Scanner(System.in);
+
+    /**
+     *
+     */
+    //root node of the binary tree
     public static BTree initialrootnode;
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        //initial run on the binary tree
         initialrootnode = TreeDriver.initial();
+        //infinate loop for the game to run
         for(;;){
+        //introduction to game
         int choice = introduction();
         if (choice == 1) 
         {
@@ -46,7 +70,12 @@ public class AnimalGame {
     }
       
     //Introduction for the game
-    public static int introduction()
+
+    /**
+     *
+     * @return
+     */
+        public static int introduction()
     {
      System.out.println(" 1: Play the game " + " 2: Save game data " +  " 3: Load game data " +  " 4: Exit. ");  
      String choice = scanner.nextLine();
@@ -64,7 +93,7 @@ public class AnimalGame {
             System.out.print("No current save data! " + "\r\n");
             }
         }
-        //Fix Deserialize
+        //Deserialize data
         if (choice.equals("3")) {
         LoadTheGame(initialrootnode);
         }
@@ -74,15 +103,21 @@ public class AnimalGame {
         return Integer.valueOf(choice);
     }
     
-  public static void SaveTheGame(){
+    /**
+     *
+     */
+    public static void SaveTheGame(){
+        //save game method.
       SaveGame e = new SaveGame();
       for (int i = 0; i < saveSlot; i++) {
+      //set the variables to the array.
       e.newQ = AnimalSave[i].newQ;
       e.correctA = AnimalSave[i].correctA;
       e.guessA = AnimalSave[i].guessA;
       e.input = AnimalSave[i].input;
       e.location = AnimalSave[i].location;
     try {
+        //save to binary file.
         FileOutputStream fileOut =
         new FileOutputStream("SaveData.ser");
         ObjectOutputStream out = new ObjectOutputStream(fileOut);
@@ -96,7 +131,12 @@ public class AnimalGame {
       System.out.printf("Serialized data is saved in SaveData.ser " + "\r\n");
   }
   
-  public static void LoadTheGame(BTree rootnode){
+    /**
+     *
+     * @param rootnode
+     */
+    //load the game from a saved file.
+    public static void LoadTheGame(BTree rootnode){
       SaveGame e = null;
       try {
          FileInputStream fileIn = new FileInputStream("SaveData.ser");
@@ -126,14 +166,23 @@ public class AnimalGame {
         System.out.println("Loaded Data");
   }
     
-  public static void playGame(BTree currentNode)
+    /**
+     *
+     * @param currentNode
+     */
+    
+    //play the game method.
+    public static void playGame(BTree currentNode)
   {
+      //find if the current node is a leaf node.
    while (!currentNode.isLeaf())
    {
+       //if the user inputs 'Y'
      if (input(currentNode.getData())){
         currentNode = currentNode.getLeft();
         locateAnimal += "Y";
      }
+     //if the user inputs 'N'
      else{
            currentNode = currentNode.getRight();
            locateAnimal += "N";
@@ -142,13 +191,26 @@ public class AnimalGame {
  
    System.out.print("You are a " + currentNode.getData() + ". ");
    if (!input("Am I Correct?"))
+     //add animal to binary tree.
      AddAnimal(currentNode);
    else
      System.out.println("I'm just too good!");
   }
   
-  public static void FindAnimal(BTree currentNode, String guessA, String location, String newQ, String correctA, String input){
+    /**
+     *
+     * @param currentNode
+     * @param guessA
+     * @param location
+     * @param newQ
+     * @param correctA
+     * @param input
+     */
+    
+    //The AI will play the game till it finds the correct node to override.
+    public static void FindAnimal(BTree currentNode, String guessA, String location, String newQ, String correctA, String input){
       try {
+      //Find the node.       
       String currentLocation = location;
       while (!currentNode.isLeaf() && found == false)
       {
@@ -165,6 +227,7 @@ public class AnimalGame {
               s = currentNode.getData();
               currentLocation = currentLocation.substring(1);
           }
+          //if the node is found add the animal.
           if (s.equals(guessA))
           {
               LoadAnimal(currentNode, guessA, correctA, newQ, input);
@@ -176,7 +239,17 @@ public class AnimalGame {
       }
   }
   
-  public static void LoadAnimal(BTree current, String guessAnimal, String newAnimal, String newQuestion, String input){
+    /**
+     *
+     * @param current
+     * @param guessAnimal
+     * @param newAnimal
+     * @param newQuestion
+     * @param input
+     */
+    
+    //add the animal from binary file
+    public static void LoadAnimal(BTree current, String guessAnimal, String newAnimal, String newQuestion, String input){
    String guessA = guessAnimal;   
    String correctA = newAnimal; 
    String newQ = newQuestion;   
@@ -200,6 +273,12 @@ public class AnimalGame {
    }
   }
   
+    /**
+     *
+     * @param current
+     */
+    
+    //add animal and new question to the binary tree.
   public static void AddAnimal(BTree current)
   {
    String guessA;   
@@ -214,6 +293,7 @@ public class AnimalGame {
    System.out.println(correctA + " from a " + guessA + ".");
    newQ = scanner.nextLine();
    
+   //get the current data from the node.
    current.setData(newQ);
    System.out.println("As a " + correctA + ", " + newQ);
    if (input("Please answer"))
@@ -231,6 +311,13 @@ public class AnimalGame {
    saveSlot++;
   }
  
+    /**
+     *
+     * @param message
+     * @return
+     */
+  
+  //input commands for the user
   public static boolean input(String message)
   {
    String answer;
