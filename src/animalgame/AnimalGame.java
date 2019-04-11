@@ -47,6 +47,7 @@ public class AnimalGame {
      */
     //root node of the binary tree
     public static BTree initialrootnode;
+    public static BTree previousNode;
     /**
      * @param args the command line arguments
      */
@@ -177,29 +178,43 @@ public class AnimalGame {
     //play the game method.
     public static void playGame(BTree currentNode)
   {
-      //find if the current node is a leaf node.
+      boolean animalNotFound = false;
+   try{
+   //find if the current node is a leaf node.
    while (!currentNode.isLeaf())
    {
        //if the user inputs 'Y'
      if (input(currentNode.getData())){
         currentNode = currentNode.getLeft();
         locateAnimal += "Y";
+        if (!currentNode.equals(null)) {
+         previousNode = currentNode;
+         }
      }
      //if the user inputs 'N'
      else{
            currentNode = currentNode.getRight();
            locateAnimal += "N";
+           if (!currentNode.equals(null)) {
+           previousNode = currentNode;
+         }
      }
    }
- 
-   System.out.print("You are a " + currentNode.getData() + ". ");
-   if (!input("Am I Correct?"))
-     //add animal to binary tree.
-     AddAnimal(currentNode);
-   else
-     System.out.println("I'm just too good!");
-     locateAnimal = "";
-     endGame = true;
+      } catch(Exception c){
+      animalNotFound = true;
+      addNewQuestion(previousNode);
+      endGame = true;
+      }
+      if (animalNotFound == false) {
+        System.out.print("You are a " + currentNode.getData() + ". ");
+        if (!input("Am I Correct?"))
+          //add animal to binary tree.
+          AddAnimal(currentNode);
+        else
+          System.out.println("I'm just too good!");
+          locateAnimal = "";
+          endGame = true;
+      }
   }
   
     /**
@@ -315,6 +330,30 @@ public class AnimalGame {
    }
    locateAnimal = "";
    saveSlot++;
+  }
+  
+  public static void addNewQuestion(BTree current)
+  {
+   BTree getCurrent;
+   getCurrent = current.getLeft();
+   String guessA = getCurrent.getData();   
+   String correctA; 
+   String newQ;   
+   
+   System.out.println(current);
+   System.out.println("I give up. What are you? ");
+   correctA = scanner.nextLine();
+   System.out.println("Write a yes/no question about your animal");
+   newQ = scanner.nextLine();
+   
+   //get the current data from the node.
+   if (input("Please answer"))
+   {
+      getCurrent = new BTree(newQ, null, null);
+      getCurrent.setLeft(new BTree(correctA, null, null));
+      current.setRight(getCurrent);
+   }
+   locateAnimal = "";
   }
  
     /**
