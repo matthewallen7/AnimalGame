@@ -134,7 +134,6 @@ public class AnimalGame {
       }
       System.out.printf("Serialized data is saved in SaveData.ser " + "\r\n");
   }
-  
     /**
      *
      * @param rootnode
