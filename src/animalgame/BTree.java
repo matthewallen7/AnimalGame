@@ -33,6 +33,11 @@ public class BTree implements java.io.Serializable{
      * @param right
      */
     
+   //null constuctor
+    public BTree(){
+        
+    }
+    
     //variables for the Binary tree.
     public BTree(String data, BTree left, BTree right){
     this.data = data;
